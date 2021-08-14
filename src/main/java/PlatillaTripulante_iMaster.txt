@@ -1,0 +1,265 @@
+/*
+ * Puede usar esta plantilla para la carga del reto a iMaster
+ * Copie las clases de los paquetes Modelo, Vista, Controlador y Util
+ * No incluya los import de los archivos .java solo las clases
+ */
+// Importaciones necesarias en iMaster
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+// Util (No modificar)
+class JDBCUtilities {
+    private static final String DATABASE_LOCATION = "ProyectosConstruccion.db";
+
+    public static Connection getConnection() throws SQLException {
+        String url = "jdbc:sqlite:"+DATABASE_LOCATION;
+
+        return DriverManager.getConnection(url);
+    }
+}
+
+// Remplace en adelante por las clases de sus archivos .java
+
+// Vista
+// class VistaRequerimientos {}
+public class VistaRequerimientos {
+
+    public static final ControladorRequerimientos controlador = new ControladorRequerimientos();
+
+    public static void requerimiento1() {
+        try {
+            ArrayList<Requerimiento_1Vo> resultado_requerimiento1 = controlador.consultarRequerimiento1();
+            resultado_requerimiento1.forEach(System.out::println);
+        } catch (Exception e) {
+            System.out.println("Se ha producido el siguiente error:" + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public static void requerimiento2() {
+        try {
+            ArrayList<Requerimiento_2Vo> resultado_requerimiento2 = controlador.consultarRequerimiento2();
+            resultado_requerimiento2.forEach(System.out::println);
+        } catch (Exception e) {
+            System.out.println("Se ha producido el siguiente error:" + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public static void requerimiento3() {
+        try {
+           ArrayList<Requerimiento_3Vo> resultado_requerimiento3 = controlador.consultarRequerimiento3();
+           resultado_requerimiento3.forEach(System.out::println);
+        } catch (Exception e) {
+            System.out.println("Se ha producido el siguiente error:" + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+}
+
+
+// Controlador
+// class ControladorRequerimientos {}
+
+public class ControladorRequerimientos {
+    private Requerimiento_1Dao requerimiento_1Dao;
+    private Requerimiento_2Dao requerimiento_2Dao;
+    private Requerimiento_3Dao requerimiento_3Dao;
+
+    public ControladorRequerimientos() {
+        this.requerimiento_1Dao = new Requerimiento_1Dao();
+        this.requerimiento_2Dao = new Requerimiento_2Dao();
+        this.requerimiento_3Dao = new Requerimiento_3Dao();
+    }
+
+ 
+
+    public ArrayList<Requerimiento_1Vo> consultarRequerimiento1() throws SQLException {
+        return this.requerimiento_1Dao.requerimiento1();
+    }
+
+    public ArrayList<Requerimiento_2Vo> consultarRequerimiento2() throws SQLException {
+       return this.requerimiento_2Dao.requerimiento2();
+    }
+
+    public ArrayList<Requerimiento_3Vo> consultarRequerimiento3() throws SQLException {
+     return this.requerimiento_3Dao.requerimiento3();
+    }
+}
+
+
+// Modelo
+// VO
+//class Requerimiento_1 {}
+public class Requerimiento_1Vo {
+    private String ciudadResidencia;
+    private Integer promedioSalario;
+
+
+    public Requerimiento_1Vo(){
+    }
+
+    public Requerimiento_1Vo(String ciudadResidencia, Integer promedioSalario) {
+        this.ciudadResidencia = ciudadResidencia;
+        this.promedioSalario = promedioSalario;
+    }
+
+    public String getCiudadResidencia() {
+        return ciudadResidencia;
+    }
+    public void setCiudadResidencia(String ciudadResidencia) {
+        this.ciudadResidencia = ciudadResidencia;
+    }
+
+    public Integer getPromedioSalario() {
+        return promedioSalario;
+    }
+
+    public void setPromedioSalario(Integer promedioSalario) {
+        this.promedioSalario = promedioSalario;
+    }
+
+
+    @Override
+    public String toString() {
+        return ciudadResidencia + " " + promedioSalario;
+    }
+}
+
+//class Requerimiento_2 {}
+public class Requerimiento_2Vo {
+    private String proyectoID;
+    private String proveedorCompra;
+
+    public Requerimiento_2Vo(){
+    }
+
+    public Requerimiento_2Vo(String proyectoID, String proveedorCompra) {
+        this.proyectoID = proyectoID;
+        this.proveedorCompra = proveedorCompra;
+    }
+
+    public String getProyectoID() {
+        return proyectoID;
+    }
+
+    public void setProyectoID(String proyectoID) {
+        this.proyectoID = proyectoID;
+    }
+
+    public String getProveedorCompra() {
+        return proveedorCompra;
+    }
+
+    public void setProveedorCompra(String proveedorCompra) {
+        this.proveedorCompra = proveedorCompra;
+    }
+
+
+    @Override
+    public String toString() {
+        return proyectoID + " " + proveedorCompra;
+    }
+}
+
+
+//class Requerimiento_3 {}
+public class Requerimiento_3Vo {
+    private String proyectoID;
+    private String nombreMaterial;
+
+    public Requerimiento_3Vo(){
+    }
+
+    public Requerimiento_3Vo(String proyectoID, String nombreMaterial) {
+        this.proyectoID = proyectoID;
+        this.nombreMaterial = nombreMaterial;
+    }
+
+    public String getProyectoID() {
+        return proyectoID;
+    }
+
+    public void setProyectoID(String proyectoID) {
+        this.proyectoID = proyectoID;
+    }
+
+    public String getNombreMaterial() {
+        return nombreMaterial;
+    }
+
+    public void setNombreMaterial(String nombreMaterial) {
+        this.nombreMaterial = nombreMaterial;
+    }
+
+    @Override
+    public String toString() {
+        return proyectoID + " " + nombreMaterial;
+    }
+
+}
+
+
+// DAO
+//class Requerimiento_1Dao {}
+public class Requerimiento_1Dao {
+    public ArrayList<Requerimiento_1Vo> requerimiento1() throws SQLException {
+        Connection connection = JDBCUtilities.getConnection();
+        ArrayList<Requerimiento_1Vo> listado_registros_rq1 = new ArrayList<Requerimiento_1Vo>();
+        String sql = "SELECT Ciudad_Residencia, ROUND (AVG(Salario)) AS Promedio FROM Lider l GROUP BY Ciudad_Residencia HAVING Promedio<400000 ORDER by Promedio DESC;";
+        try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                Requerimiento_1Vo requerimiento1 = new Requerimiento_1Vo();
+                requerimiento1.setCiudadResidencia(rs.getString("Ciudad_Residencia"));
+                requerimiento1.setPromedioSalario(rs.getInt("Promedio"));
+                listado_registros_rq1.add(requerimiento1);
+            }
+        }
+        return listado_registros_rq1;
+    }
+}
+
+
+//class Requerimiento_2Dao {}
+public class Requerimiento_2Dao {
+    public ArrayList<Requerimiento_2Vo> requerimiento2() throws SQLException {
+        Connection connection2 = JDBCUtilities.getConnection();
+        ArrayList<Requerimiento_2Vo> listado_registros_rq2 = new ArrayList<Requerimiento_2Vo>();
+        String sql = "SELECT p.ID_Proyecto,  c.Proveedor FROM Proyecto p, Compra c natural JOIN Compra c WHERE p.Ciudad =='Neiva' ORDER BY p.ID_Proyecto;";
+        try (Statement stmt = connection2.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                Requerimiento_2Vo requerimiento2 = new Requerimiento_2Vo();
+                requerimiento2.setProyectoID(rs.getString("ID_Proyecto"));
+                requerimiento2.setProveedorCompra(rs.getString("Proveedor"));
+                listado_registros_rq2.add(requerimiento2);
+            }
+        }
+        return listado_registros_rq2;
+    }
+}
+
+
+
+//class Requerimiento_3Dao {}
+
+public class Requerimiento_3Dao {
+    public ArrayList<Requerimiento_3Vo> requerimiento3() throws SQLException {
+        Connection connection3 = JDBCUtilities.getConnection();
+        ArrayList<Requerimiento_3Vo> listado_registros_rq3 = new ArrayList<Requerimiento_3Vo>();
+        String sql = "SELECT p.ID_Proyecto, mc.Nombre_Material from Proyecto p, MaterialConstruccion mc natural JOIN Compra c WHERE p.ID_Proyecto >=40 and p.ID_Proyecto <=55 ORDER BY p.ID_Proyecto;";
+        try (Statement stmt = connection3.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                Requerimiento_3Vo requerimiento3 = new Requerimiento_3Vo();
+                requerimiento3.setProyectoID(rs.getString("ID_Proyecto"));
+                requerimiento3.setNombreMaterial(rs.getString("Nombre_Material"));
+                listado_registros_rq3.add(requerimiento3);
+            }
+        }
+        return listado_registros_rq3;
+    }
+}
